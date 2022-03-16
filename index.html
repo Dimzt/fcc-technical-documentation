@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FCC: Technical Documentation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav id="navbar">
+      <header>JS Functions</header>
+      <a href="#Introduction" class="nav-link">Introduction</a>
+      <a href="#What_you_should_already_know" class="nav-link">What you should already know</a>
+      <a href="#Function_declarations" class="nav-link">Function declarations</a>
+      <a href="#Function_expressions" class="nav-link">Function Expressions</a>
+      <a href="#Calling_functions" class="nav-link">Calling functions</a>
+      <a href="#Function_scope" class="nav-link">Function scope</a>
+    </nav>
+    <main id="main-doc">
+      <section class="main-section" id="Introduction">
+        <header>Introduction</header>
+        <p>
+          Functions are one of the fundamental building blocks in JavaScript. A function in JavaScript is similar to a procedure—a set of statements that performs a task or calculates a value, but for a procedure to qualify as a function,
+          it should take some input and return an output where there is some obvious relationship between the input and the output. To use a function, you must define it somewhere in the scope from which you wish to call it.
+        </p>
+      </section>
+
+      <section class="main-section" id="What_you_should_already_know">
+        <header>What you should already know</header>
+        <p>This guide assumes you have the following basic background:</p>
+        <ul>
+          <li>This guide assumes you have the following basic background:</li>
+          <li>Good working knowledge of HyperText Markup Language (HTML).</li>
+          <li>Some programming experience. If you are new to programming, try one of the tutorials linked on the main page about JavaScript.</li>
+        </ul>
+      </section>
+
+      <section class="main-section" id="Function_declarations">
+        <header>Function declarations</header>
+        <p>A function definition (also called a function declaration, or function statement) consists of the function keyword, followed by:</p>
+        <ul>
+          <li>The name of the function.</li>
+          <li>A list of parameters to the function, enclosed in parentheses and separated by commas.</li>
+          <li>The JavaScript statements that define the function, enclosed in curly brackets, {...}.</li>
+        </ul>
+        <p>For example, the following code defines a simple function named square:</p>
+        <code>
+          <pre>
+function square(number) {
+  return number * number; 
+}</pre
+          >
+        </code>
+        <p>
+          The function square takes one parameter, called number. The function consists of one statement that says to return the parameter of the function (that is, number) multiplied by itself. The statement return specifies the value
+          returned by the function:
+        </p>
+        <code>
+          <pre>return number * number;</pre>
+        </code>
+        <p>
+          Parameters are essentially passed to functions by value — so if the code within the body of a function assigns a completely new value to a parameter that was passed to the function, the change is not reflected globally or in the
+          code which called that function.
+        </p>
+        <p>When you pass an object as a parameter, if the function changes the object's properties, that change is visible outside the function, as shown in the following example:</p>
+        <code>
+          <pre>
+function myFunc(theObject) {
+  theObject.make = 'Toyota';
+}
+
+var mycar = {make: 'Honda', model: 'Accord', year: 1998};
+var x, y;
+
+x = mycar.make; // x gets the value "Honda"
+
+myFunc(mycar);
+y = mycar.make; // y gets the value "Toyota"
+                // (the make property was changed by the function)</pre
+          >
+        </code>
+      </section>
+
+      <section class="main-section" id="Function_expressions">
+        <header>Function Expressions</header>
+        <p>While the function declaration above is syntactically a statement, functions can also be created by a function expression.</p>
+        <p>Such a function can be anonymous; it does not have to have a name. For example, the function square could have been defined as:</p>
+        <code>
+          <pre>
+const square = function(number) { return number * number }
+var x = square(4) // x gets the value 16</pre
+          >
+        </code>
+        <p>However, a name can be provided with a function expression. Providing a name allows the function to refer to itself, and also makes it easier to identify the function in a debugger's stack traces:</p>
+        <code>
+          <pre>
+const factorial = function fac(n) { return n < 2 ? 1 : n * fac(n - 1) }
+
+console.log(factorial(3))</pre
+          >
+        </code>
+        <p>Function expressions are convenient when passing a function as an argument to another function. The following example shows a map function that should receive a function as first argument and an array as second argument:</p>
+        <code>
+          <pre>
+function map(f, a) {
+  let result = []; // Create a new Array
+  let i; // Declare variable
+  for (i = 0; i != a.length; i++)
+    result[i] = f(a[i]);
+  return result;
+}</pre
+          >
+        </code>
+        <p>In the following code, the function receives a function defined by a function expression and executes it for every element of the array received as a second argument:</p>
+        <code>
+          <pre>
+function map(f, a) {
+  let result = []; // Create a new Array
+  let i; // Declare variable
+  for (i = 0; i != a.length; i++)
+    result[i] = f(a[i]);
+  return result;
+}
+const f = function(x) {
+    return x * x * x;
+}
+let numbers = [0, 1, 2, 5, 10];
+let cube = map(f,numbers);
+console.log(cube);</pre
+          >
+        </code>
+        <p>Function returns: [0, 1, 8, 125, 1000].</p>
+        <p>In JavaScript, a function can be defined based on a condition. For example, the following function definition defines myFunc only if num equals 0:</p>
+        <code>
+          <pre>
+var myFunc;
+if (num === 0) {
+  myFunc = function(theObject) {
+    theObject.make = 'Toyota';
+  }
+}</pre
+          >
+        </code>
+        <p>In addition to defining functions as described here, you can also use the Function constructor to create functions from a string at runtime, much like eval().</p>
+      </section>
+
+      <section class="main-section" id="Calling_functions">
+        <header>Calling functions</header>
+        <p>Defining a function does not execute it. Defining it names the function and specifies what to do when the function is called.</p>
+        <p>Calling the function actually performs the specified actions with the indicated parameters. For example, if you define the function square, you could call it as follows:</p>
+        <code>
+          <pre>square(5);</pre>
+        </code>
+        <p>The preceding statement calls the function with an argument of 5. The function executes its statements and returns the value 25.</p>
+        <p>Functions must be in scope when they are called, but the function declaration can be hoisted (appear below the call in the code), as in this example:</p>
+        <code>
+          <pre>
+console.log(square(5));
+/* ... */
+function square(n) { return n * n }</pre
+          >
+        </code>
+        <p>The scope of a function is the function in which it is declared (or the entire program, if it is declared at the top level).</p>
+        <p>
+          The arguments of a function are not limited to strings and numbers. You can pass whole objects to a function. The showProps() function (defined in Working with objects) is an example of a function that takes an object as an
+          argument.
+        </p>
+        <p>A function can call itself. For example, here is a function that computes factorials recursively:</p>
+        <code>
+          <pre>
+function factorial(n) {
+  if ((n === 0) || (n === 1))
+    return 1;
+  else
+    return (n * factorial(n - 1));
+}</pre
+          >
+        </code>
+        <p>You could then compute the factorials of 1 through 5 as follows:</p>
+        <code>
+          <pre>
+var a, b, c, d, e;
+a = factorial(1); // a gets the value 1
+b = factorial(2); // b gets the value 2
+c = factorial(3); // c gets the value 6
+d = factorial(4); // d gets the value 24
+e = factorial(5); // e gets the value 120</pre
+          >
+        </code>
+      </section>
+
+      <section class="main-section" id="Function_scope">
+        <header>Function Scope</header>
+        <p>
+          Variables defined inside a function cannot be accessed from anywhere outside the function, because the variable is defined only in the scope of the function. However, a function can access all variables and functions defined
+          inside the scope in which it is defined.
+        </p>
+        <p>
+          In other words, a function defined in the global scope can access all variables defined in the global scope. A function defined inside another function can also access all variables defined in its parent function, and any other
+          variables to which the parent function has access.
+        </p>
+        <code>
+          <pre>
+// The following variables are defined in the global scope
+var num1 = 20,
+    num2 = 3,
+    name = 'Chamakh';
+
+// This function is defined in the global scope
+function multiply() {
+  return num1 * num2;
+}
+
+multiply(); // Returns 60
+
+// A nested function example
+function getScore() {
+  var num1 = 2,
+      num2 = 3;
+
+  function add() {
+    return name + ' scored ' + (num1 + num2);
+  }
+
+  return add();
+}
+
+getScore(); // Returns "Chamakh scored 5"</pre
+          >
+        </code>
+      </section>
+    </main>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+  </body>
+</html>
